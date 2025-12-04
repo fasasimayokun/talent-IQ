@@ -1,5 +1,5 @@
-import { chatClient, streamClient } from "../lib/stream";
-import Session from "../models/Session";
+import { chatClient, streamClient } from "../lib/stream.js";
+import Session from "../models/Session.js";
 
 export async function createSession(req, res) {
   try {
@@ -12,7 +12,7 @@ export async function createSession(req, res) {
     };
 
     // generate a unique call id for stream video
-    const callId = `session_${Date.now()}_${Math.random.toString(36).substring(7)}`;
+    const callId = `session_${Date.now()}_${Math.random().toString(36).substring(7)}`;
 
     // create session in db
     const session = await Session.create({
@@ -36,7 +36,7 @@ export async function createSession(req, res) {
 
     // chat messaging
 
-    chatClent.channel("messaging", callId, {
+    const channel = chatClient.channel("messaging", callId, {
       name: `${problem} Session`,
       created_by_id: clerkId,
       members: [clerkId]
